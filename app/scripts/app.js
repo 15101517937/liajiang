@@ -9,35 +9,55 @@
  * Main module of the application.
  */
 angular
-  .module('bugcenterApp', ['ui.router']).config(['$stateProvider',function($stateProvider){
-    $stateProvider.state("jgr",{
-      templateUrl:'views/jgr.html',
-      url:"/jgr",
-      controller:"jgr"
-    }).state("lk",{
-      templateUrl:'views/lk.html',
-      url:"/lk",
-      controller:"lk"
-    })
-  }]).controller("jgr",["$scope","$http",function($scope,$http){
-   $http({
-     url:"http://47.90.20.200:1602/test/",
-     method:"get"
-   }).then(function(e){
-     $scope.data=e.data
-   },function(){
+  .module('bugcenterApp', []).controller("jgr",["$scope","$http",function($scope,$http){
+     $http({
+       url:"http://47.90.20.200:1602/news-img1/",
+       method:"get"
+     }).then(function(e){
+      console.log(e)
+       $scope.img1=e.data
+     },function(){
 
-   })
+     })
+     $http({
+       url:"http://47.90.20.200:1602/news1/",
+       method:"get"
+     }).then(function(e){
+      console.log(e)
+       $scope.title1=e.data
+     },function(){
+
+     })
+     $http({
+       url:"http://47.90.20.200:1602/news-img2/",
+       method:"get"
+     }).then(function(e){
+      console.log(e)
+       $scope.img2=e.data
+     },function(){
+
+     })
+     $http({
+       url:"http://47.90.20.200:1602/news2/",
+       method:"get"
+     }).then(function(e){
+      console.log(e)
+       $scope.title2=e.data
+     },function(){
+
+     })
+     $scope.data=[{"name":"国际","english":"WORLD","title1":"环球视野","title2":"国际人物"},
+                    {"name":"财经","english":"FINANCE","title1":"股票","title2":"理财"}]
   }]).directive("autoplay",function(){
     return {
       restrict:"ECMA",
-      template:'<div><div id="{{data2}}" class="carousel slide" data-ride="carousel"><ol class="carousel-indicators"><li ng-repeat="x in data" data-target="#{{data2}}" data-slide-to="{{$index}}" ng-class="{active:$index==0}"></li></ol><div class="carousel-inner" role="listbox"><div ng-repeat="x in data" class="item " ng-class="{active:$index==0}"><img ng-src="{{x.pic}}" alt=""><div class="carousel-caption"></div></div></div><!-- Controls --><a class="left carousel-control" href="#{{data2}}" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span><span class="sr-only">Previous</span></a><a class="right carousel-control" href="#{{data2}}" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span><span class="sr-only">Next</span></a></div></div>',
-      scope:{data:"=jgr",data2:"@jgr2"},
+      template:'<div><ul><li ng-repeat="x in data2">{{x.title}}</li></ul><div ng-repeat="a in data1" class="tu"><img src="{{a.img}}"/></div></div>',
+      scope:{data1:"=img",data2:"=title"},
       replace:true,
       link:function(s,e,a){
         e.find(".carousel").carousel({
           interval: 1000
-})
+            })
         
       }
 
